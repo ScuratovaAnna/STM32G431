@@ -1,22 +1,45 @@
-/*
-#define 	SET_BIT(REG, BIT)   ((REG) |= (BIT))
-#define 	CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
-*/
+/**-----------------------------------------------------------------------
+ *\date  23.06.2024
+ *\brief
+ *
+ * ** Код написан в Arduino 2.3.2. STM32 core support for Arduino**
+ *    https://github.com/stm32duino/Arduino_Core_STM32
+ *    Этот репозиторий добавляет поддержку микроконтроллера STM32 в Arduino IDE.
+ *
+ *    https://github.com/stm32duino/Arduino_Core_STM32/wiki/Getting-Started
+ *    Добавление и  поддержка плат STM32 в Arduino. Пошаговая инструкция.
+ *
+ *      1        1->PA.0
+ *     ---       2->PA.1
+ *  6 | 7 |3     3->PA.2
+ *     ---       4->PA.3
+ *  5 | 4 |2     5->PA.4
+ *     ---       6->PA.5
+ *               7->PA.6
+ *
+ *
+ *\authors        
+ *\сode debugging 
+ *
+ **************************************************************************
+ *\brief
+ */
+
 typedef uint8_t u8;
 u8 Count;
-//             0     1    2     3     4     5     6     7    8     9
+/*             0     1    2     3     4     5     6     7    8     9   */
 u8 CW[10] = { 0x3F, 0X6, 0x5D, 0x4F, 0x66, 0x6B, 0x7B, 0x7, 0x7F, 0x6F };
-//*********************************************************************
+/************************************************************************/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-//*********************************************************************
+/************************************************************************/
 //то что выполняется один раз
 void setup() {
   HAL_Init();            // --> https://www.youtube.com/watch?v=bso8JyznhhQ
   SystemClock_Config();  //инициализируем систему тактирования
   MX_GPIO_Init();        //настраиваем наш выводы
 }
-//*********************************************************************
+/************************************************************************/
 // вечный цикл в котором крутится код
 void loop() {
   for (Count = 0; Count < 9; Count++) {
@@ -58,16 +81,16 @@ void SystemClock_Config(void) {
     Error_Handler();
   }
 }
-//настройка GPIO --> более подробно http://mypractic.ru/hal-gpio-generic-driver-funkcii-upravleniya-portami-vvoda-vyvoda
+  //настройка GPIO --> более подробно http://mypractic.ru/hal-gpio-generic-driver-funkcii-upravleniya-portami-vvoda-vyvoda
 static void MX_GPIO_Init(void) {
-  //*******разрешаем тактирование порта A********************************
+/********разрешаем тактирование порта A**********************************/
   //разрешаем тактирование порта A
   // __HAL_RCC_GPIOA_CLK_ENABLE();
   //SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOAEN);
   RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
   //RCC->AHB2ENR |= 1UL << 0;
   //RCC->AHB2ENR =0x1;
-  //*********************************************************************
+/************************************************************************/
   GPIO_InitTypeDef GPIO_Init_portA = { 0 };
   GPIO_Init_portA.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6;                      // определяем выводы
   GPIO_Init_portA.Mode = GPIO_MODE_OUTPUT_PP;                                                                                          // режим работы выводов
@@ -76,3 +99,4 @@ static void MX_GPIO_Init(void) {
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6, GPIO_PIN_RESET);  //выставляем низкий уровень
   HAL_Delay(500);                                                                                                                      //и чтобы это увидеть делаем задержку
 }
+/****************************** End of file *****************************/
