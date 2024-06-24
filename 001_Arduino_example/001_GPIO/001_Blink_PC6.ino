@@ -76,17 +76,8 @@ void SystemClock_Config(void) {
 //настройка GPIO --> более подробно http://mypractic.ru/hal-gpio-generic-driver-funkcii-upravleniya-portami-vvoda-vyvoda
 static void MX_GPIO_Init(void) {
   GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-  //разрешаем тактирование порта A
-  // __HAL_RCC_GPIOA_CLK_ENABLE();  
-  /************************************************
-  #define 	SET_BIT(REG, BIT)   ((REG) |= (BIT))
-  #define 	CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
-  ************************************************/  
-  //SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOAEN);
-  //RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
-  //RCC->AHB2ENR |= 1UL << 0;
-  RCC->AHB2ENR =0x1;
-  GPIO_InitStruct.Pin = GPIO_PIN_6;                      // определяем вывод
+   __HAL_RCC_GPIOC_CLK_ENABLE();                         //разрешаем тактирование порта A
+  GPIO_InitStruct.Pin = GPIO_PIN_6;                      //определяем вывод
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;            //режим работы вывода
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;           //скорость работы я ставлю минимальную
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);                //собираем всё в кучу
