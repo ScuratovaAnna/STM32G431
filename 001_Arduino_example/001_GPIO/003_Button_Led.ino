@@ -87,7 +87,7 @@ static void MX_GPIO_Init(void) {
   GPIO_InitTypeDef GPIO_Input = { 0 };
   GPIO_Input.Pin = GPIO_PIN_4;
   GPIO_Input.Mode = GPIO_MODE_INPUT;
-  GPIO_Input.Mode = GPIO_NOPULL;
+  GPIO_Input.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_Input);
 }
 /****************************** End of file *****************************/
