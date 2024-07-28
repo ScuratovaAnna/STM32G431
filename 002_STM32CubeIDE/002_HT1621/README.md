@@ -79,4 +79,5 @@ void wrone(uint8_t addr, uint8_t sdata) {
   GPIOA->BSRR |= (1 << CS);
 }
  ~~~  
-
+ 
+![Battery_levels](https://github.com/ScuratovaAnna/STM32G431/blob/main/002_STM32CubeIDE/002_HT1621/GIF/001.gif)  
